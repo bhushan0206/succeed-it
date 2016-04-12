@@ -1,4 +1,4 @@
-angular.module('angularfireSlackApp')
+angular.module('succeedIT')
   .controller('AuthCtrl', function(Auth, $state){
     var authCtrl = this;
 

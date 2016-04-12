@@ -1,4 +1,4 @@
-angular.module('angularfireSlackApp')
+angular.module('succeedIT')
   .factory('Users', function($firebaseArray, $firebaseObject, FirebaseUrl){
     var usersRef = new Firebase(FirebaseUrl+'users');
     var users = $firebaseArray(usersRef);
@@ -14,6 +14,9 @@ angular.module('angularfireSlackApp')
 			getGravatar: function(uid){
 			  return '//www.gravatar.com/avatar/' + users.$getRecord(uid).emailHash;
 			},	
+			getProjects: function(uid){
+				return users.$getRecord(uid).projectsAssigned;
+			},
 			setOnline: function(uid){
 			  var connected = $firebaseObject(connectedRef);
 			  var online = $firebaseArray(usersRef.child(uid+'/online'));

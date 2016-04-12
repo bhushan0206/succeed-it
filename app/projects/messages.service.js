@@ -1,16 +1,16 @@
 /**
-* angularfireSlackApp Module
+* succeedIT Module
 *
 * Description
 */
-angular.module('angularfireSlackApp')
+angular.module('succeedIT')
 	.factory('Messages', function($firebaseArray, FirebaseUrl){
-		var channelMessagesRef = new Firebase(FirebaseUrl + 'channelMessages');
+		var projectMessagesRef = new Firebase(FirebaseUrl + 'projectMessages');
 		var userMessagesRef = new Firebase(FirebaseUrl+'userMessages')
 
 		return{
-			forChannel: function(channelId){
-				return $firebaseArray(channelMessagesRef.child(channelId));
+			forProject: function(projectId){
+				return $firebaseArray(projectMessagesRef.child(projectId));
 			},
 			forUsers: function(uid1, uid2){
 				var path = uid1 < uid2 ? uid1+'/'+uid2 : uid2+'/'+uid1;

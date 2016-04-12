@@ -1,14 +1,14 @@
 /**
-* angularfireSlackApp Module
+* succeedIT Module
 *
 * Description
 */
-angular.module('angularfireSlackApp')
-	.controller('MessagesCtrl', function(profile, channelName, messages){
+angular.module('succeedIT')
+	.controller('MessagesCtrl', function(profile, projectName, messages){
 		var messagesCtrl = this;
 
 		messagesCtrl.messages = messages;
-		messagesCtrl.channelName = channelName;
+		messagesCtrl.projectName = projectName;
 		messagesCtrl.message = '';
 
 		messagesCtrl.sendMessage = function (){

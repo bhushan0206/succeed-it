@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name angularfireSlackApp
+ * @name succeedIT
  * @description
- * # angularfireSlackApp
+ * # succeedIT
  *
  * Main module of the application.
  */
 angular
-  .module('angularfireSlackApp', [
+  .module('succeedIT', [
     'firebase',
     'angular-md5',
     'ui.router'
@@ -22,21 +22,21 @@ angular
         resolve: {
           requireNoAuth: function($state, Auth){
             return Auth.$requireAuth().then(function(auth){
-              $state.go('channels');
+              $state.go('projects');
             }, function(error){
               return;
             });
           }
         }        
       })
-      .state('channels', {
-        url: '/channels',
-        controller: 'ChannelsCtrl as channelsCtrl',
-        templateUrl: 'channels/index.html',        
+      .state('projects', {
+        url: '/projects',
+        controller: 'ProjectsCtrl as projectsCtrl',
+        templateUrl: 'projects/index.html',        
         resolve: {
-          channels: function (Channels){
-            return Channels.$loaded();
-          },
+          projects: function (Projects){
+            return Projects.$loaded();
+          },          
           profile: function ($state, Auth, Users){
             return Auth.$requireAuth().then(function(auth){
               return Users.getProfile(auth.uid).$loaded().then(function (profile){
@@ -52,33 +52,56 @@ angular
           }
         }
       })    
-      .state('channels.create', {
+      .state('projects.create', {
         url: '/create',
-        templateUrl: 'channels/create.html',
-        controller: 'ChannelsCtrl as channelsCtrl'
+        templateUrl: 'projects/create.html',
+        controller: 'ProjectsCtrl as projectsCtrl'
       })       
-      .state('channels.messages', {
-        url: '/{channelId}/messages',
-        templateUrl: 'channels/messages.html',
+      .state('projects.messages', {
+        url: '/{projectId}/messages',
+        templateUrl: 'projects/messages.html',
         controller: 'MessagesCtrl as messagesCtrl',        
         resolve: {
           messages: function($stateParams, Messages){
-            return Messages.forChannel($stateParams.channelId).$loaded();
+            return Messages.forProject($stateParams.projectId).$loaded();
           },
-          channelName: function($stateParams, channels){
-            return '#'+channels.$getRecord($stateParams.channelId).name;
+          projectName: function($stateParams, projects){
+            return '#'+projects.$getRecord($stateParams.projectId).name;
           }
         }
       }) 
-      .state('channels.direct', {
+      .state('projects.dashboard', {
+        url: '/{projectId}/dashboard',
+        templateUrl: 'projects/dashboard.html',
+        controller: 'DashboardCtrl as dashboardCtrl',        
+        resolve: {
+          messages: function($stateParams, Messages){
+            return Messages.forProject($stateParams.projectId).$loaded();
+          },
+          projectName: function($stateParams, projects){
+            return '#'+projects.$getRecord($stateParams.projectId).name;
+          }
+        }
+      })
+      .state('projects.team', {
+        url: '/{projectId}/team',
+        templateUrl: 'projects/dashboard.html',
+        resolve: {
+          availableUsers: function($stateParams, Users){
+
+          }
+        }
+
+      })      
+      .state('projects.direct', {
         url: '/{uid}/messages/direct',
-        templateUrl: 'channels/messages.html',
+        templateUrl: 'projects/messages.html',
         controller: 'MessagesCtrl as messagesCtrl',
         resolve: {
           messages: function($stateParams, Messages, profile){
             return Messages.forUsers($stateParams.uid, profile.$id).$loaded();
           },
-          channelName: function($stateParams, Users){
+          projectName: function($stateParams, Users){
             return Users.all.$loaded().then(function(){
               return '@'+Users.getDisplayName($stateParams.uid);
             });

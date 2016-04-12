@@ -1,12 +1,12 @@
 <div class="header">
-  <h1>{{ messagesCtrl.channelName }}</h1>
+  <h1>{{ messagesCtrl.projectName }}</h1>
 </div>
 
 <div class="message-wrap" ng-repeat="message in messagesCtrl.messages">
-  <img class="user-pic" ng-src="{{ channelsCtrl.getGravatar(message.uid) }}" />
+  <img class="user-pic" ng-src="{{ projectsCtrl.getGravatar(message.uid) }}" />
   <div class="message-info">
     <div class="user-name">
-      {{ channelsCtrl.getDisplayName(message.uid) }}
+      {{ projectsCtrl.getDisplayName(message.uid) }}
       <span class="timestamp">{{ message.timestamp | date:'short' }}</span>
     </div>
     <div class="message">
